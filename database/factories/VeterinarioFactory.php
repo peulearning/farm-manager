@@ -17,7 +17,8 @@ class VeterinarioFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+           'nome' => $this->faker->name(),
+           'crmv' => $this->faker->unique()->bothify('??#####'),
         ];
     }
 }
