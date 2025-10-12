@@ -69,6 +69,30 @@ class Gado extends Model
 
     }
 
+    public function podeSerAbatido(): bool{
+        $idadeAnos = \Carbon\Carbon::parse($this->data_nascimento)->age;
+        $racaoPorDia = $this->racao_semana / 7;
+
+        return (
+            $idadeAnos > 5 ||
+            $this->leite_semana < 40 ||
+            ($this->leite_semana < 70 && $racaoPorDia > 50) ||
+            $this->peso_arroba > 18
+        );
+    }
+
+    public function abater(): bool{
+        if (! $this->podeSerAbatido()) {
+            throw new \Exception("❌ Este animal não pode ser abatido, pois não atende aos critérios definidos.");
+        }
+
+        // Marca o animal como abatido (morto)
+        $this->vivo = false;
+        $this->data_abate = now();
+        $this->save();
+
+        return true;
+    }
 
 
 }
