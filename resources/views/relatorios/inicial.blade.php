@@ -1,4 +1,4 @@
-{{-- @extends('welcome') usando welcome como layout --}}
+@extends('layouts.app')
 
 @section('content')
 <div class="container">
@@ -36,4 +36,4 @@
         </p>
     </div>
 </div>
-{{-- @endsection --}}
+@endsection
