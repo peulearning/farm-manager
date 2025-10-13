@@ -14,7 +14,7 @@
 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
     <div>
         <label for="codigo" class="block text-sm font-medium text-gray-700">Código do Animal</label>
-        <input type="number" name="codigo" id="codigo" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" value="{{ old('codigo', $gado->codigo ?? '') }}" required>
+        <input type="text" name="codigo" id="codigo" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" value="{{ old('codigo', $gado->codigo ?? '') }}" required>
     </div>
     <div>
         <label for="peso" class="block text-sm font-medium text-gray-700">Peso (kg)</label>
