@@ -22,6 +22,16 @@ class Gado extends Model
         'data_abate',
     ];
 
+     /**
+     * The attributes that should be cast.
+     *
+     * @var array<string, string>
+     */
+    protected $casts = [
+        'data_nascimento' => 'datetime',
+        'data_abate' => 'datetime',
+    ];
+
     public function fazenda()
     {
         return $this->belongsTo(Fazenda::class);
