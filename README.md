@@ -133,14 +133,13 @@ docker compose exec app php artisan key:generate
 docker compose exec app php artisan migrate
 ```
 ## Acesse o Sistema
-> Pronto! O sistema estará disponível no seu navegador no endereço:
-> http://localhost:8000
-> http://localhost:8000/relatorios/inicial
-> http://localhost:8000/relatorios/inicial
-> http://localhost:8000/relatorios/abatidos
-> http://localhost:8000/gados
-> http://localhost:8000/fazendas
-> http://localhost:8000/veterinarios
+> Pronto! O sistema estará disponível no seu navegador no endereço:<br>
+> http://localhost:8000<br>
+> http://localhost:8000/relatorios/inicial<br>
+> http://localhost:8000/relatorios/abatidos<br>
+> http://localhost:8000/gados<br>
+> http://localhost:8000/fazendas<br>
+> http://localhost:8000/veterinarios<br>
 
 ## 📖 Manual de Uso do Sistema
 > O sistema foi projetado para ser intuitivo. As principais funcionalidades estão divididas em módulos acessíveis pelo menu de navegação.>
