@@ -32,4 +32,11 @@ class GadoController extends Controller
             ], 400);
         }
     }
+
+
+    public function relatorioAbatidos(){
+        $animaisAbatidos = Gado::whereNotNull('data_abate')->get();
+
+        return view('relatorios.abatidos', compact('animaisAbatidos'));
+    }
 }
