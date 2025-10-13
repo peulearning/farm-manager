@@ -39,4 +39,4 @@ Route::resource('gados', GadoController::class);
 Route::resource('fazendas', FazendaController::class);
 
 // ============================ CRUD VETERINARIO ============================
-// Route::resource('veterinarios', VeterinarioController::class);
+Route::resource('veterinarios', VeterinarioController::class);

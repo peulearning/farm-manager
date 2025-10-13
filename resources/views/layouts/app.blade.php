@@ -22,7 +22,7 @@
         </main>
 
         <footer class="text-center text-sm text-gray-500 py-4 mt-8">
-            &copy; {{ date('Y') }} Gerenciador de Fazendas . Todos os direitos reservados.
+            &copy; {{ date('Y') }} Gerenciador de Fazendas . Todos os direitos reservados - Pedro Henrique ♥️
         </footer>
     </div>
 </body>
