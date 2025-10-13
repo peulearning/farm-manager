@@ -45,7 +45,7 @@ class GadoController extends Controller
     {
         // ADIÇÃO: Validar os dados recebidos do formulário
         $request->validate([
-            'codigo' => 'required|numeric|unique:gados,codigo',
+            'codigo' => 'required|string|unique:gados,codigo',
             'leite' => 'required|numeric|min:0',
             'racao' => 'required|numeric|min:0',
             'peso' => 'required|numeric|min:0',

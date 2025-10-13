@@ -19,6 +19,8 @@ class FazendaController extends Controller
     public function store(Request $request){
         $validatedData = $request->validate([
             'nome' => 'required|string|max:255|unique:fazendas',
+            'tamanho' => 'required|numeric|min:0',
+            'responsavel'=>'required|string|max:255',
         ]);
 
         // Adiciona a data/hora atual ao array de dados validados
