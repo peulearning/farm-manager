@@ -95,13 +95,16 @@ class Gado extends Model
     }
 
     // Verifica se o animal pode ser abatido
-    public function podeSerAbatido(): bool
-    {
+    public function podeSerAbatido(): bool{
+        $idadeAnos = \Carbon\Carbon::parse($this->data_nascimento)->age;
+        $racaoPorDia = $this->racao / 7; // usar a coluna 'racao' do DB
+        $pesoArroba = $this->peso / 15; // converter kg → arrobas
+
         return (
-            $this->idade > 5 ||
-            $this->leite_semana < 40 ||
-            ($this->leite_semana < 70 && ($this->racao_semana / 7) > 50) ||
-            $this->peso_arroba > 18
+            $idadeAnos > 5 ||
+            $this->leite < 40 ||
+            ($this->leite < 70 && $racaoPorDia > 50) ||
+            $pesoArroba > 18
         );
     }
 

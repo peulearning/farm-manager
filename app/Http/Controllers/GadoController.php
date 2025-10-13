@@ -13,7 +13,7 @@ class GadoController extends Controller
             $gado = Gado::findOrFail($id);
 
             // Verifica se o gado pode ser abatido
-            if (!$gado->podeAbater()) {
+            if (!$gado->podeSerAbatido()) {
                 return response()->json([
                     'error' => 'O animal não se enquadra nas condições de abate.'
                 ], 400);

@@ -1,9 +1,9 @@
 <?php
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\GadoController;
 
+use App\Http\Controllers\GadoController;
+use Illuminate\Support\Facades\Route;
 
 Route::post('gados/{id}/abater', [GadoController::class, 'abater']);
+
 
