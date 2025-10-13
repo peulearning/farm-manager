@@ -23,6 +23,8 @@ class GadoFactory extends Factory
          'peso' => $this->faker->randomFloat(2, 200, 800),
          'data_nascimento' => $this->faker->date(),
          'fazenda_id' => \App\Models\Fazenda::factory(),
+         'vivo' => true,
+         'data_abate' => null,
         ];
     }
 }

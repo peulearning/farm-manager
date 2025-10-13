@@ -2,18 +2,34 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Gado;
 use Illuminate\Http\Request;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Gado;
 
 class GadoController extends Controller
 {
-    public function listarParaAbate()
+    public function abater($id)
     {
-        $gados = Gado::all()->filter(function ($gado) {
-            return $gado->podeSerAbatido();
-        });
+        try {
+            $gado = Gado::findOrFail($id);
 
-        return response()->json($gados);
+            // Verifica se o gado pode ser abatido
+            if (!$gado->podeAbater()) {
+                return response()->json([
+                    'error' => 'O animal não se enquadra nas condições de abate.'
+                ], 400);
+            }
+
+            // Abate o gado
+            $gado->abater();
+
+            return response()->json([
+                'message' => '✅ Animal abatido com sucesso!',
+                'animal' => $gado
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => $e->getMessage()
+            ], 400);
+        }
     }
 }

@@ -5,31 +5,34 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Validation\ValidationException;
+use Carbon\Carbon;
 
 class Gado extends Model
 {
     use HasFactory;
-
 
     protected $fillable = [
         'codigo',
         'leite',
         'racao',
         'peso',
-        'nascimento',
-        'fazenda_id'
+        'data_nascimento',
+        'fazenda_id',
+        'vivo',
+        'data_abate',
     ];
 
-
-    public function fazenda(){
+    public function fazenda()
+    {
         return $this->belongsTo(Fazenda::class);
     }
 
-    public static function boot(){
+    protected static function boot()
+    {
         parent::boot();
 
-
-        static::creating(function($gado){
+        // Limite de animais por fazenda
+        static::creating(function ($gado) {
             $fazenda = Fazenda::find($gado->fazenda_id);
 
             if (!$fazenda) {
@@ -37,7 +40,6 @@ class Gado extends Model
             }
 
             $limite = $fazenda->tamanho * 18;
-
             $totalAtuais = $fazenda->gados()->count();
 
             if ($totalAtuais >= $limite) {
@@ -47,52 +49,73 @@ class Gado extends Model
             }
         });
 
+        // Validações gerais
         static::saving(function ($gado) {
-        $existe = Gado::where('codigo', $gado->codigo)
-            ->where('status', 'vivo')
-            ->where('id', '!=', $gado->id) // ignora ele mesmo ao atualizar
-            ->exists();
+            $existe = Gado::where('codigo', $gado->codigo)
+                ->where('vivo', true)
+                ->where('id', '!=', $gado->id)
+                ->exists();
 
-        if ($existe && $gado->status === 'vivo') {
-            throw ValidationException::withMessages([
-                'codigo' => "Já existe um animal vivo com o código '{$gado->codigo}'."
-            ]);
-        }
+            if ($existe && $gado->vivo) {
+                throw ValidationException::withMessages([
+                    'codigo' => "Já existe um animal vivo com o código '{$gado->codigo}'."
+                ]);
+            }
 
-        if ($gado->data_nascimento && $gado->data_nascimento > now()){
-            throw ValidationException::withMessages([
-                'data_nascimento' => "A data de nascimento não pode ser no futuro."
-            ]);
-        };
-
-    });
-
+            if ($gado->data_nascimento && $gado->data_nascimento > now()) {
+                throw ValidationException::withMessages([
+                    'data_nascimento' => "A data de nascimento não pode ser no futuro."
+                ]);
+            }
+        });
     }
 
-    public function podeSerAbatido(): bool{
-        $idadeAnos = \Carbon\Carbon::parse($this->data_nascimento)->age;
-        $racaoPorDia = $this->racao_semana / 7;
+    // Calcula idade em anos
+    public function getIdadeAttribute(): int
+    {
+        return Carbon::parse($this->data_nascimento)->age;
+    }
 
+    // Total de leite por semana (assumindo que o campo 'leite' é diário)
+    public function getLeiteSemanaAttribute(): float
+    {
+        return $this->leite * 7;
+    }
+
+    // Total de ração por semana (assumindo que o campo 'racao' é diário)
+    public function getRacaoSemanaAttribute(): float
+    {
+        return $this->racao * 7;
+    }
+
+    // Peso em arrobas
+    public function getPesoArrobaAttribute(): float
+    {
+        return $this->peso / 15; // 1 arroba = 15 kg
+    }
+
+    // Verifica se o animal pode ser abatido
+    public function podeSerAbatido(): bool
+    {
         return (
-            $idadeAnos > 5 ||
+            $this->idade > 5 ||
             $this->leite_semana < 40 ||
-            ($this->leite_semana < 70 && $racaoPorDia > 50) ||
+            ($this->leite_semana < 70 && ($this->racao_semana / 7) > 50) ||
             $this->peso_arroba > 18
         );
     }
 
-    public function abater(): bool{
-        if (! $this->podeSerAbatido()) {
+    // Abate o animal
+    public function abater(): bool
+    {
+        if (!$this->podeSerAbatido()) {
             throw new \Exception("❌ Este animal não pode ser abatido, pois não atende aos critérios definidos.");
         }
 
-        // Marca o animal como abatido (morto)
         $this->vivo = false;
         $this->data_abate = now();
         $this->save();
 
         return true;
     }
-
-
 }
