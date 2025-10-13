@@ -92,6 +92,60 @@ O sistema deve fornecer os seguintes relatórios:
 
 ---
 
+## 🚀 Guia de Instalação e Execução
+> Para rodar este projeto localmente, você precisa ter o Docker e o Docker Compose instalados.
+
+## Clone o Repositório
+```
+git clone https://[URL_DO_SEU_REPOSITORIO].git
+cd [NOME_DA_PASTA_DO_PROJETO]
+```
+
+## Configure o Ambiente
+> Copie o arquivo de exemplo .env.example para criar seu próprio arquivo de configuração .env.
+```
+cp .env.example .env
+```
+## Inicie os Contêineres
+> Este comando irá construir e iniciar os contêineres do servidor web, PHP e banco de dados em segundo plano.
+
+```
+docker compose up -d --build
+```
+
+## Instale as Dependências do PHP
+
+> Acesse o contêiner app e instale as dependências do projeto com o Composer.
+
+```
+docker compose exec app composer install
+```
+## Gere a Chave da Aplicação
+
+> O Laravel precisa de uma chave de encriptação única para a aplicação.
+```
+docker compose exec app php artisan key:generate
+```
+
+## Execute as Migrações
+> Este comando criará todas as tabelas necessárias no banco de dados.
+```
+docker compose exec app php artisan migrate
+```
+## Acesse o Sistema
+> Pronto! O sistema estará disponível no seu navegador no endereço:
+> http://localhost:8000
+> http://localhost:8000/relatorios/inicial
+> http://localhost:8000/relatorios/inicial
+> http://localhost:8000/relatorios/abatidos
+> http://localhost:8000/gados
+> http://localhost:8000/fazendas
+> http://localhost:8000/veterinarios
+
+## 📖 Manual de Uso do Sistema
+> O sistema foi projetado para ser intuitivo. As principais funcionalidades estão divididas em módulos acessíveis pelo menu de navegação.>
+
+
 ## 📘 Observações
 > Este projeto deve priorizar **boas práticas de desenvolvimento**, **organização do código** e **usabilidade** para o usuário final.
 > Recomenda-se também o uso de **migrações**, **seeders**, e **padrões de projeto (MVC)**.
