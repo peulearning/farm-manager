@@ -36,7 +36,7 @@ Route::get('/relatorios/inicial', [RelatorioController::class, 'inicial'])->name
 Route::resource('gados', GadoController::class);
 
 // ============================ CRUD FAZENDA ============================
-// Route::resource('fazendas', FazendaController::class);
+Route::resource('fazendas', FazendaController::class);
 
 // ============================ CRUD VETERINARIO ============================
 // Route::resource('veterinarios', VeterinarioController::class);
